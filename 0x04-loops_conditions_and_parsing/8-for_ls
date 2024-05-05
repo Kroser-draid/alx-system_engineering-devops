@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# see script
+i="0"
+LIST="$(ls *-*| sed 's/^[^-]*-//')"
+for i in "$LIST"; do
+	echo -e "$i\n";
+
+done
