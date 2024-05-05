@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # script that prints
 i="0"
-while [ $i -lt 10 ]
+while [ $i -lt 11 ]
 do
-if [ "$i" -eq 8 ]
+if [ "$i" -eq 9 ]
 then
 echo "Hi"
 fi
-if [ "$i" -ne 8 ]
+if [ "$i" -ne 9 ]
 then
 echo "Best School"
 fi
