@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # see script
-i="0"
-LIST="$(find . -type f -name "*-*" -exec basename {} \; | sed 's/^[^-]*-//')"
-for i in $LIST; do
-	echo "$i";
-
+for file in *; do
+	echo "${file#*-}"
 done
