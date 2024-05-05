@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#script for FizzBuzz task
+i="1"
+while [ $i -le 100 ]
+do
+	fizz=$(( i % 3 ))
+	buzz=$(( i % 5 ))
+	fizzbuzz=$(( fizz + buzz ))
+if [[ "$fizzbuzz" == 0 ]]
+then
+echo "FizzBuzz"
+elif [[ "$fizz" == 0 ]]
+then
+echo "Fizz"
+elif [[ "$buzz" == 0 ]]
+then
+echo "Buzz"
+else
+echo $i
+fi
+(( i++ ))
+done
