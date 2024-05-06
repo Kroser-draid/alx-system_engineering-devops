@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # beheading the process
 pro=$(pgrep -f "bash ./7-highlander")
-kill -9 $pro
+kill -9 "$pro"
