@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#Bash script that displays lines containing the bash word
+# this is script that shows pid of bash
 # shellcheck disable=SC2009
-
-ps aux | grep bash
+ps -auxf | grep bash
