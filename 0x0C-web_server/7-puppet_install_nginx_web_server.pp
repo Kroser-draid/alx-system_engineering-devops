@@ -1,45 +1,41 @@
-# this script configure a new machine with nginx
-
-package { 'update-all-packages' :
-  ensure => 'latest',
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
 }
 
-# install nginx
-
-exec { 'install_nginx' :
-  command => 'apt-get -y install nginx',
-  creates => '/etc/nginx/nginx.conf',
-  path    => '/usr/bin',
+# Define Nginx service
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  require => Package['nginx'],
 }
 
-exec { 'create_index' :
-  command => 'bash -c "echo 'Hello World!' > /var/www/html/index.html"',
-  path    => ['/usr/bin', '/bin'],
-}
-
+# Configure Nginx server
 file { '/etc/nginx/sites-available/default':
-  content => 'server {
+  ensure  => present,
+  content => "# Nginx configuration file
+server {
     listen 80;
     server_name _;
 
-    location /redirect_me {
-	return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    location / {
+        return 200 'Hello World!';
     }
 
-    location / {
-	root /var/www/html;
-	index index.html;
+    location /redirect_me {
+        return 301 http://new_page.com;
     }
-}',
-  mode    => '0644',
-  owner   => 'root',
-  group   => 'root',
-  require => File['/var/www/html/index.html'],
+
+    # Other Nginx configuration settings...
+}",
+  require => Package['nginx'],
+  notify  => Service['nginx'],
 }
 
-exec { 'nginx_restart':
-  command     => 'service nginx restart',
-  path        => '/usr/bin:/usr/sbin:/bin:/sbin',
-  refreshonly => true,
-  require     => Package['nginx'],
+# Enable the site by creating a symbolic link
+file { '/etc/nginx/sites-enabled/default':
+  ensure  => link,
+  target  => '/etc/nginx/sites-available/default',
+  require => File['/etc/nginx/sites-available/default'],
+  notify  => Service['nginx'],
 }
