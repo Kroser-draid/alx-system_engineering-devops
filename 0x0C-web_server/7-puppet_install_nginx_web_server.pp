@@ -1,4 +1,4 @@
-# update all packages
+# this script configure a new machine with nginx
 
 package { 'update-all-packages' :
   ensure => 'latest',
@@ -12,14 +12,10 @@ exec { 'install_nginx' :
   path    => '/usr/bin',
 }
 
-# create the index page
-
 exec { 'create_index' :
   command => 'bash -c "echo 'Hello World!' > /var/www/html/index.html"',
   path    => ['/usr/bin', '/bin'],
 }
-
-# redirection configuration
 
 file { '/etc/nginx/sites-available/default':
   content => 'server {
@@ -39,4 +35,11 @@ file { '/etc/nginx/sites-available/default':
   owner   => 'root',
   group   => 'root',
   require => File['/var/www/html/index.html'],
+}
+
+exec { 'nginx_restart':
+  command     => 'service nginx restart',
+  path        => '/usr/bin:/usr/sbin:/bin:/sbin',
+  refreshonly => true,
+  require     => Package['nginx'],
 }
